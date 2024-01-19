@@ -1,4 +1,10 @@
-# WechatAnnualReport
+# WeChatReport
+
+> [!NOTE]
+> Such fork is customized by Xecades. Content below is from original repository, does NOT represent the final usage of this repo.
+
+---
+
 微信年度报告生成器！
 
 ## step 1: 导出聊天记录

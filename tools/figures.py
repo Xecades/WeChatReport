@@ -1,6 +1,6 @@
 import os
 import time
-import jieba 
+import jieba
 import logging
 
 import pandas as pd
@@ -34,6 +34,14 @@ def plot_nmess_per_month(df: pd.DataFrame, output_file: str = "nmess_per_minute.
 
 
 
+def combine_words(words: list, series: list, dist: str):
+    for wd in words:
+        if wd in series:
+            words.remove(wd)
+            words.append(dist)
+
+
+
 def plot_wordcloud(df: pd.DataFrame, output_file: str = "wordcloud.png"):
     global STOPWORDS
     jieba.setLogLevel(logging.INFO)
@@ -44,7 +52,7 @@ def plot_wordcloud(df: pd.DataFrame, output_file: str = "wordcloud.png"):
     STOPWORDS |= set(my_stopwords + ["\r\n"])
     
     all_words = []
-    for i, row in tqdm(df.iterrows(), total=len(df)):
+    for _, row in tqdm(df.iterrows(), total=len(df)):
         row_content = row["StrContent"]
         for emoji in EMOJIS:
             row_content = row_content.replace(emoji, " ")
@@ -52,7 +60,10 @@ def plot_wordcloud(df: pd.DataFrame, output_file: str = "wordcloud.png"):
         for word in words:
             if len(word) > 1 and word not in STOPWORDS:
                 all_words.append(word)
-                
+
+    combine_words(all_words, ["h" * x for x in range(3, 10)], "hhhhh")
+    combine_words(all_words, ["哈" * x for x in range(3, 10)], "哈哈哈哈")
+
     cnt = sorted(Counter(all_words).items(), key=lambda x: x[1], reverse=True)
     text = " ".join(all_words)
     wc = WordCloud(font_path="data/simhei.ttf", background_color="white", max_words=2000,
